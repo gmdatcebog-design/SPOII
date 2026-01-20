@@ -26,9 +26,8 @@ from sklearn.metrics import roc_auc_score
 
 warnings.filterwarnings('ignore')
 
-desktop_putanja = os.path.join(os.environ['USERPROFILE'], 'Desktop')
-ime_fajla = 'energy_efficiency_data.csv'
-pun_naziv_fajla = os.path.join(desktop_putanja, ime_fajla)
+
+pun_naziv_fajla = 'energy_efficiency_data.csv'
 
 try:
     df = pd.read_csv(pun_naziv_fajla)
@@ -454,3 +453,4 @@ except Exception as e:
 
 
 input("\nPritisni Enter za kraj...")
+
