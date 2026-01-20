@@ -210,7 +210,7 @@ try:
     # 3. Treniranje i testiranje za Hladjenje (Y2)
     RFR.fit(X_train, y2_train.values.ravel())   
     score_rfr_y2 = RFR.score(X_test, y2_test)
-    print("R-Squared za Hladjenje (Y2) na test setu: {:.4f}".format(score_rfr_y2))
+    print("R-Squared za Hladenje (Y2) na test setu: {:.4f}".format(score_rfr_y2))
 
     # --- OPTIMIZACIJA GRADIENT BOOSTING MODELA ---
     # learning_rate: kontrolise koliko svako novo stablo utice na finalni rezultat
@@ -321,7 +321,7 @@ try:
         ['GradientBoostingRegressor', GradientBoostingRegressor(learning_rate=0.1, n_estimators=250, max_depth=5)]
     ]
 
-    # --- 3. RU»NO TRENIRANJE I ISPIS ZA MLP (AKO éELIä POSEBAN ISPIS) ---
+    # --- 3. RU√àNO TRENIRANJE I ISPIS ZA MLP (AKO ¬éELI¬ä POSEBAN ISPIS) ---
     print("\n--- TRENERANJE NEURONSKE MREZE (MLP) ---")
 
     # Treniranje za Grijanje (Y1)
@@ -334,7 +334,7 @@ try:
     score_y2 = MLPR.score(X_test, y2_test)
     print(f"MLP R-Squared (Hladjenje Y2): {score_y2:.4f}")
 
-    # 2. Kreiranje prazne tabele za poreenje
+    # 2. Kreiranje prazne tabele za pore√∞enje
     Acc1 = pd.DataFrame(columns=['model','train_Heating','test_Heating','train_Cooling','test_Cooling'])
 
     # 3. Petlja koja trenira sve modele iz liste i puni tabelu
@@ -344,17 +344,17 @@ try:
         name = mod[0]
         model = mod[1]
     
-        # Treniranje i predvianje za Grijanje (y1)
+        # Treniranje i predvi√∞anje za Grijanje (y1)
         model.fit(X_train, y1_train.values.ravel())
         actr1_m = r2_score(y1_train, model.predict(X_train))
         acte1_m = r2_score(y1_test, model.predict(X_test))
     
-        # Treniranje i predvianje za Hlaenje (y2)
+        # Treniranje i predvi√∞anje za Hla√∞enje (y2)
         model.fit(X_train, y2_train.values.ravel())
         actr2_m = r2_score(y2_train, model.predict(X_train))
         acte2_m = r2_score(y2_test, model.predict(X_test))
     
-        # Dodavanje u tabelu koristeÊi pd.concat (ispravna zamjena za .append)
+        # Dodavanje u tabelu koriste√¶i pd.concat (ispravna zamjena za .append)
         novi_red = pd.DataFrame([{
             'model': name, 
             'train_Heating': actr1_m, 
@@ -364,8 +364,8 @@ try:
         }])
         Acc1 = pd.concat([Acc1, novi_red], ignore_index=True)
 
-    # 4. Dodavanje CatBoost rezultata (ruËno, jer su veÊ izraËunati ranije)
-    # PAéNJA: Provjeri da li su ti varijable za CatBoost (actr1, acte1...) definisane iznad
+    # 4. Dodavanje CatBoost rezultata (ru√®no, jer su ve√¶ izra√®unati ranije)
+    # PA¬éNJA: Provjeri da li su ti varijable za CatBoost (actr1, acte1...) definisane iznad
     cat_red = pd.DataFrame([{
         'model': 'CatBoostRegressor', 
         'train_Heating': actr1, 
@@ -393,10 +393,10 @@ try:
     print("Hladjenje (Y2) - Test:    {:.4f}".format(acte2))
     print("="*40)
 
-    # Pronalazimo red sa maksimalnom vrijednosÊu na testu za grijanje
+    # Pronalazimo red sa maksimalnom vrijednos√¶u na testu za grijanje
     pobjednik_heating = Acc1.loc[Acc1['test_Heating'].idxmax()]
 
-    # Pronalazimo red sa maksimalnom vrijednosÊu na testu za hlaenje
+    # Pronalazimo red sa maksimalnom vrijednos√¶u na testu za hla√∞enje
     pobjednik_cooling = Acc1.loc[Acc1['test_Cooling'].idxmax()]
 
     print("\n" + "*"*50)
@@ -409,7 +409,7 @@ try:
     print(f"Preciznost (R2): {pobjednik_cooling['test_Cooling']:.4f}")
     print("*"*50)
 
-    # --- 1. GENERISANJE PREDVI–ANJA (KORISTIMO NAJBOLJI MODEL, NPR. CATBOOST) ---
+    # --- 1. GENERISANJE PREDVI√êANJA (KORISTIMO NAJBOLJI MODEL, NPR. CATBOOST) ---
     # Zamijeni 'grid_CBR' sa nazivom svog najboljeg modela ako je drugi pobijedio
     y1_pred = grid_CBR.predict(X_test) 
     y2_pred = grid_CBR.predict(X_test) 
@@ -429,7 +429,7 @@ try:
     plt.legend(loc='best', fancybox=True, shadow=True)
     plt.grid(True, alpha=0.3)
 
-    # DONJI GRAFIKON: Hlaenje (Cooling)
+    # DONJI GRAFIKON: Hla√∞enje (Cooling)
     plt.subplot(2, 1, 2)
     plt.plot(x_ax, y2_test, label="Actual Cooling", color='green', linewidth=1.5)
     plt.plot(x_ax, y2_pred, label="Predicted Cooling", color='orange', linestyle='--', linewidth=1.5)
@@ -439,9 +439,9 @@ try:
     plt.legend(loc='best', fancybox=True, shadow=True)
     plt.grid(True, alpha=0.3)
 
-    # --- 3. PRIKAZ I SPAäAVANJE ---
-    plt.tight_layout() # Automatski popravlja razmak izmeu grafikona
-    plt.savefig("Rezultati_Grafikon.png", dpi=300) # Spaöava sliku u visokoj rezoluciji
+    # --- 3. PRIKAZ I SPA¬äAVANJE ---
+    plt.tight_layout() # Automatski popravlja razmak izme√∞u grafikona
+    plt.savefig("Rezultati_Grafikon.png", dpi=300) # Spa¬öava sliku u visokoj rezoluciji
     plt.show()
 
     model_cat_y1.save_model("catboost_heating_model.cbm")
@@ -451,5 +451,6 @@ try:
 
 except Exception as e:
     print(f"\nDoslo je do greske: {e}")
+
 
 input("\nPritisni Enter za kraj...")
