@@ -249,9 +249,9 @@ try:
     print("R-Squared za Hladjenje (Y2) na test setu: {:.4f}".format(score_gbr_y2))
 
     # --- OPTIMIZACIJA CATBOOST MODELA ---
-    model_CBR = CatBoostRegressor(verbose=0) # verbose=0 iskljucuje ispisivanje svake iteracije
+    #model_CBR = CatBoostRegressor(verbose=0) # verbose=0 iskljucuje ispisivanje svake iteracije
     
-    parameters = {
+    #parameters = {
         'depth': [8, 10],
         'iterations': [1000], # Smanjeno sa 10000 radi brzine, mozes vratiti ako zelis
         'learning_rate': [0.02, 0.03],
@@ -260,45 +260,45 @@ try:
     }
 
     # cv=2 znaci da ce se podaci podijeliti na dva dijela za provjeru
-    grid_CBR = GridSearchCV(estimator=model_CBR, param_grid=parameters, cv=2, n_jobs=-1)
+    #grid_CBR = GridSearchCV(estimator=model_CBR, param_grid=parameters, cv=2, n_jobs=-1)
     
-    print("\n[INFO] Pokrecem CatBoost optimizaciju (ovo moze potrajati)...")
-    grid_CBR.fit(X_train, y2_train)
+    #print("\n[INFO] Pokrecem CatBoost optimizaciju (ovo moze potrajati)...")
+    #grid_CBR.fit(X_train, y2_train)
 
-    print("\n--- REZULTATI ZA CATBOOST ---")
-    print("Najbolji estimator:\n", grid_CBR.best_estimator_)
-    print("Najbolji score:\n", grid_CBR.best_score_)
-    print("Najbolji parametri:\n", grid_CBR.best_params_)
+    #print("\n--- REZULTATI ZA CATBOOST ---")
+    #print("Najbolji estimator:\n", grid_CBR.best_estimator_)
+    #print("Najbolji score:\n", grid_CBR.best_score_)
+    #print("Najbolji parametri:\n", grid_CBR.best_params_)
 
     # 1. Kreiramo finalni CatBoost model sa tvojim optimizovanim parametrima
     # Dodao sam verbose=0 da ti ne ispisuje 10.000 linija teksta dok radi
-    model = CatBoostRegressor(border_count=5, depth=10, iterations=10000, 
+    #model = CatBoostRegressor(border_count=5, depth=10, iterations=10000, 
                               learning_rate=0.02, random_state=42, verbose=0)
 
     # 2. Treniranje i predvidjanje za GRIJANJE (Y1)
-    print("\n[INFO] CatBoost trenira za Grijanje...")
-    model.fit(X_train, y1_train)
-    actr1 = r2_score(y1_train, model.predict(X_train))
-    acte1 = r2_score(y1_test, model.predict(X_test))
-    y1_pred = model.predict(X_test) # Ovo su predvidjene vrijednosti za test set
+    #print("\n[INFO] CatBoost trenira za Grijanje...")
+   # model.fit(X_train, y1_train)
+    #actr1 = r2_score(y1_train, model.predict(X_train))
+    #acte1 = r2_score(y1_test, model.predict(X_test))
+    #y1_pred = model.predict(X_test) # Ovo su predvidjene vrijednosti za test set
 
     # 3. Treniranje i predvidjanje za HLADJENJE (Y2)
-    print("[INFO] CatBoost trenira za Hladjenje...")
-    model.fit(X_train, y2_train)
-    actr2 = r2_score(y2_train, model.predict(X_train))
-    acte2 = r2_score(y2_test, model.predict(X_test))
-    y2_pred = model.predict(X_test) # Ovo su predvidjene vrijednosti za test set
+    #print("[INFO] CatBoost trenira za Hladjenje...")
+    #model.fit(X_train, y2_train)
+    #actr2 = r2_score(y2_train, model.predict(X_train))
+    #acte2 = r2_score(y2_test, model.predict(X_test))
+    #y2_pred = model.predict(X_test) # Ovo su predvidjene vrijednosti za test set
 
     # Ispis finalnih rezultata
-    print("\n--- FINALNI CATBOOST REZULTATI ---")
-    print(f"Grijanje (Y1) - Trening R2: {actr1:.4f}, Test R2: {acte1:.4f}")
-    print(f"Hladjenje (Y2) - Trening R2: {actr2:.4f}, Test R2: {acte2:.4f}")
+    #print("\n--- FINALNI CATBOOST REZULTATI ---")
+    #print(f"Grijanje (Y1) - Trening R2: {actr1:.4f}, Test R2: {acte1:.4f}")
+    #print(f"Hladjenje (Y2) - Trening R2: {actr2:.4f}, Test R2: {acte2:.4f}")
 
     # Finalni ispis preciznosti u konzolu
-    print("CatBoostRegressor: R-Squared on train dataset={}".format(actr1))
-    print("CatBoostRegressor: R-Squared on Y1test dataset={}".format(acte1))
-    print("CatBoostRegressor: R-Squared on train dataset={}".format(actr2))
-    print("CatBoostRegressor: R-Squared on Y2test dataset={}".format(acte2))
+    #print("CatBoostRegressor: R-Squared on train dataset={}".format(actr1))
+    #print("CatBoostRegressor: R-Squared on Y1test dataset={}".format(acte1))
+    #print("CatBoostRegressor: R-Squared on train dataset={}".format(actr2))
+    #print("CatBoostRegressor: R-Squared on Y2test dataset={}".format(acte2))
 
 
 
@@ -453,4 +453,5 @@ except Exception as e:
 
 
 input("\nPritisni Enter za kraj...")
+
 
